@@ -1,10 +1,11 @@
-import AppBar from "./components/appbars/AppBar";
+
 import FilterInput from "./components/input/fFilterInput";
 import FilterSelection from "./components/selection/FilterSelection";
 import countriesData from "../data/countries-data";
 import { useContext, useEffect, useState } from "react";
 import CountryCard from "./components/card/CountryCard";
 import StyleContext from "../context/style-context";
+
 
 
 let sort = ['Ascending', 'Descending']
@@ -18,11 +19,14 @@ function CountryBody() {
 
     ///sub regions
 
-    let [region, setRegion] = useState([])//contains selected region name
+    let [region, setRegion] = useState('')//contains selected region name
     let regionList = Object.keys(countries.region)
     // let countriesListData = countries.countryiesList
 
+
+
     let [subRegionList, setSubRegionList] = useState([])//contains subregions list in the region
+    let [subRegion, setSubRegion] = useState('')//contains selected subregion name
 
     ///
 
@@ -55,9 +59,10 @@ function CountryBody() {
             accmilater.add(curentValue.subregion)
             return accmilater
         }, new Set())
+
         setSubRegionList([...subregions])
-        console.log(regionCountries, "................................")
         setFilterData(regionCountries)
+        setSubRegion('')
 
     }
 
@@ -65,6 +70,7 @@ function CountryBody() {
         let selectedSubRegion = event.target.value
         let subRegionCountries = countries.countryiesList.filter(country => country.region.toLowerCase() == region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
         setFilterData(subRegionCountries)
+        setSubRegion(selectedSubRegion)
 
     }
     let sortByPopuLation = (event) => {
@@ -87,23 +93,49 @@ function CountryBody() {
         setFilterData(sortedCountries)
     }
 
+    let searchByInput = (event) => {
+        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countryiesList))
+        let subregion = subRegion
+        let searchValue = event.target.value.toLowerCase()
+        let selectedRegion = region
+        let selectedRegionsList = copyOfCountryList.filter(country => country.region === selectedRegion)
+        let selectedSubRegionsList = selectedRegionsList.filter(country => country.subregion === subregion)
+
+        if (selectedSubRegionsList.length > 0) {
+            let searchedCountries = selectedSubRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
+            setFilterData(searchedCountries)
+            return
+        } else if (selectedRegionsList.length > 0) {
+            let searchedCountries = selectedRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
+            setFilterData(searchedCountries)
+            return
+        }
+        let searchedCountries = copyOfCountryList.filter(country => country.name.common.toLowerCase().includes(searchValue))
+        setFilterData(searchedCountries)
+    }
+
     console.log(filterData)
 
     return (
+
         <>
+            {countries.countryiesList.length == 0 ? <div id="loader"></div> :
 
-            <AppBar></AppBar>
-            <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-glare'}`}>
-                <FilterInput></FilterInput>
-                <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTage={'Filter By Region'} ></FilterSelection>
-                {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTage={'Filter By SubRegion'} ></FilterSelection>
-                }
-                <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTage={'Sort by Population'} ></FilterSelection>
-                <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTage={'Sort By Area'} ></FilterSelection>
-            </div>
+                <>
+                    <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-glare'}`}>
+                        <FilterInput searchByInputValue={searchByInput}></FilterInput>
+                        <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTage={'Filter By Region'} ></FilterSelection>
+                        {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTage={'Filter By SubRegion'} ></FilterSelection>
+                        }
+                        <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTage={'Sort by Population'} ></FilterSelection>
+                        <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTage={'Sort By Area'} ></FilterSelection>
+                    </div>
+                    <CountryCard countriesData={filterData} ></CountryCard>
 
+                </>
 
-            <CountryCard countriesData={filterData} ></CountryCard>
+            }
+
 
 
         </>
