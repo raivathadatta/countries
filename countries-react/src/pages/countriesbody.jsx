@@ -1,5 +1,5 @@
 
-import FilterInput from "./components/input/fFilterInput";
+import FilterInput from "./components/input/FilterInput";
 import FilterSelection from "./components/selection/FilterSelection";
 import countriesData from "../data/countries-data";
 import { useContext, useEffect, useState } from "react";
@@ -18,6 +18,7 @@ function CountryBody() {
     let [filterData, setFilterData] = useState([])
 
     ///sub regions
+
 
     let [region, setRegion] = useState('')//contains selected region name
     let regionList = Object.keys(countries.region)
@@ -67,11 +68,11 @@ function CountryBody() {
     }
 
     let searchBySubRegion = (event) => {
+
         let selectedSubRegion = event.target.value
         let subRegionCountries = countries.countryiesList.filter(country => country.region.toLowerCase() == region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
         setFilterData(subRegionCountries)
         setSubRegion(selectedSubRegion)
-
     }
     let sortByPopuLation = (event) => {
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
@@ -82,7 +83,7 @@ function CountryBody() {
         }
         setFilterData(sortedCountries)
     }
-
+console.log(aa)
     let sortByArea = (event) => {
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
         let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.area - country2.area)
@@ -114,7 +115,7 @@ function CountryBody() {
         setFilterData(searchedCountries)
     }
 
-    console.log(filterData)
+
 
     return (
 
@@ -131,9 +132,7 @@ function CountryBody() {
                         <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTage={'Sort By Area'} ></FilterSelection>
                     </div>
                     <CountryCard countriesData={filterData} ></CountryCard>
-
                 </>
-
             }
 
 

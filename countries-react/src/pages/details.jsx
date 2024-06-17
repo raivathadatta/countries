@@ -14,7 +14,7 @@ function DetailCountry() {
     let { id } = useParams()
     let [data, setCountry] = useState([])
     const [loading, setLoading] = useState([true])
-    console.log(id, 'id')
+    console.log(id, 'idsdfghjkl')
 
     useEffect(() => {
 
@@ -85,7 +85,7 @@ function DetailCountry() {
                                     ? data[0].borders.map((name) => {
                                         return (
                                             <>
-                                                <Link to={`/${data[0]?.cca3}`}>
+                                                <Link to={`/${name}`}>
                                                     <button key={name} className="border-2 border-black m-5">  {name}</button>
                                                 </Link>
                                             </>
