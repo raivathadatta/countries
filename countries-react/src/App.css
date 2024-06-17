@@ -1,0 +1,8 @@
+.dark {
+    --text-color: hsl(0, 0%, 100%);
+    --background-color: hsl(207, 26%, 17%);
+  }
+  
+  .dark .light-text {
+    color: hsl(200, 15%, 8%);
+  }
