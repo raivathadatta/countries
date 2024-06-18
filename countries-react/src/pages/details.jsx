@@ -58,7 +58,7 @@ function DetailCountry() {
 
                         <div key={data[0]?.name.common} className="flex m-5 ">
                             <img
-                                className="w-[45%] h-[70vh]"
+                                className="w-[50%] h-[70vh]"
                                 src={`${data[0]?.flags.png}`}
                                 alt={`${data[0]?.name.common}`} />
 
@@ -87,14 +87,14 @@ function DetailCountry() {
                                     <b>Languages : </b>
                                     {Object.keys(data[0]?.languages).join(", ")}
                                 </p>
-                                <ul className="flex">
+                                <ul className="flex items-center flex-wrap">
                                     <b>Border : </b>
                                     {data[0].borders
                                         ? data[0].borders.map((name) => {
                                             return (
                                                 <>
                                                     <Link to={`/${name}`}>
-                                                        <button key={name} className="border-2 border-black m-5">  {name}</button>
+                                                        <button key={name} className="border-2 border-black m-5 p-[1%]">  {name}</button>
                                                     </Link>
                                                 </>
 

@@ -29,7 +29,7 @@ function CountryBody() {
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
 
     let [error, setError] = useState('')//
-    ///
+    
 
     useEffect(() => {
         async function getCountriesData() {
@@ -130,7 +130,7 @@ function CountryBody() {
             {error.length > 0 ? <ErrorPage></ErrorPage> :
                 countries.countriesList.length == 0 ? <div id="loader"></div> :
                     <>
-                        <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-glare'}`}>
+                        <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'}`}>
                             <FilterInput searchByInputValue={searchByInput}></FilterInput>
                             <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTag={'Filter By Region'} ></FilterSelection>
                             {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTag={'Filter By SubRegion'} ></FilterSelection>

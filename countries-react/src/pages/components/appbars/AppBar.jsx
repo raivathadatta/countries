@@ -10,7 +10,7 @@ function AppBar() {
     let { isDarkMode, updateStyle } = useContext(StyleContext)
 
     return (
-        <header className={`flex flex-row justify-between p-[1%]  shadow-lg ${isDarkMode ? 'bg-elementDark text-textDark' : 'bg-elementLight text-textLight'}`}>
+        <header className={`flex flex-row justify-between p-[1%]  shadow-xl ${isDarkMode ? 'bg-elementDark text-textDark' : 'bg-elementLight text-textLight'}`}>
             <Link to='/'>
                 <h1 className="font-bold text-[2vi] " >  Where In The World?</h1>
             </Link>
