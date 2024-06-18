@@ -1,8 +1,10 @@
 
 import { useContext } from "react";
 import StyleContext from "../../../context/style-context";
-import { MdOutlineDarkMode } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { LuMoon } from "react-icons/lu";
+import { IoSunnyOutline } from "react-icons/io5";
+
 
 function AppBar() {
     let { isDarkMode, updateStyle } = useContext(StyleContext)
@@ -12,7 +14,7 @@ function AppBar() {
             <Link to='/'>
                 <h1 className="font-bold text-[2vi] " >  Where In The World?</h1>
             </Link>
-            <div className="font-bold flex justify-between "> {MdOutlineDarkMode} <button onClick={updateStyle}>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</button></div>
+            <div className="font-bold flex items-center">{isDarkMode? <LuMoon/> :<IoSunnyOutline/>} <button onClick={updateStyle}>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</button></div>
         </header>
     )
 }
