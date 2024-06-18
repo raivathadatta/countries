@@ -15,14 +15,15 @@ function CountryBody() {
     let { isDarkMode } = useContext(StyleContext)
 
 
-    let [countries, setCountries] = useState({ countryiesList: [], region: {} })
+    let [countries, setCountries] = useState({ countriesList: [], region: {} })
     let [filterData, setFilterData] = useState([])
 
     ///sub regions
 
     let [region, setRegion] = useState('')//contains selected region name
     let regionList = Object.keys(countries.region)
-    // let countriesListData = countries.countryiesList
+    
+    // let countriesListData = countries.countriesList
 
     let [subRegionList, setSubRegionList] = useState([])//contains subregions list in the region
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
@@ -43,7 +44,7 @@ function CountryBody() {
 
                 });
                 setFilterData(countries)
-                setCountries({ countryiesList: countries, region: regionData })
+                setCountries({ countriesList: countries, region: regionData })
 
             } catch (error) {
                 console.log(error)
@@ -61,11 +62,11 @@ function CountryBody() {
 
         let selectedRegion = event.target.value
         setRegion(selectedRegion)
-        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countryiesList))
+        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
         let regionCountries = copyOfCountryList.filter(country => country.region.toLowerCase() == selectedRegion.toLowerCase())
-        let subregions = regionCountries.reduce((accmilater, curentValue) => {
-            accmilater.add(curentValue.subregion)
-            return accmilater
+        let subregions = regionCountries.reduce((acuminates, currentValue) => {
+            acuminates.add(currentValue.subregion)
+            return acuminates
         }, new Set())
 
         setSubRegionList([...subregions])
@@ -77,7 +78,7 @@ function CountryBody() {
     let searchBySubRegion = (event) => {
 
         let selectedSubRegion = event.target.value
-        let subRegionCountries = countries.countryiesList.filter(country => country.region.toLowerCase() == region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
+        let subRegionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
         setFilterData(subRegionCountries)
         setSubRegion(selectedSubRegion)
     }
@@ -102,7 +103,7 @@ function CountryBody() {
     }
 
     let searchByInput = (event) => {
-        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countryiesList))
+        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
         let subregion = subRegion
         let searchValue = event.target.value.toLowerCase()
         let selectedRegion = region
@@ -123,33 +124,24 @@ function CountryBody() {
     }
 
 
-
     return (
 
         <>
             {error.length > 0 ? <ErrorPage></ErrorPage> :
-
-
-                countries.countryiesList.length == 0 ? <div id="loader"></div> :
-
+                countries.countriesList.length == 0 ? <div id="loader"></div> :
                     <>
                         <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-glare'}`}>
                             <FilterInput searchByInputValue={searchByInput}></FilterInput>
-                            <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTage={'Filter By Region'} ></FilterSelection>
-                            {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTage={'Filter By SubRegion'} ></FilterSelection>
+                            <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTag={'Filter By Region'} ></FilterSelection>
+                            {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTag={'Filter By SubRegion'} ></FilterSelection>
                             }
-                            <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTage={'Sort by Population'} ></FilterSelection>
-                            <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTage={'Sort By Area'} ></FilterSelection>
+                            <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTag={'Sort by Population'} ></FilterSelection>
+                            <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTag={'Sort By Area'} ></FilterSelection>
                         </div>
                         <CountryCard countriesData={filterData} ></CountryCard>
                     </>
             }
-
-
-
         </>
-
-
     )
 }
 
