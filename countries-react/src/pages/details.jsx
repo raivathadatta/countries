@@ -23,7 +23,7 @@ function DetailCountry() {
             try {
                 let countries = await countriesData()
                 countries = countries.filter(country => country.cca3 === id)
-                if(countries.length==0) {
+                if (countries.length == 0) {
                     setError('Country Not Found')
                     return
                 }
@@ -39,7 +39,7 @@ function DetailCountry() {
     }, [id])
 
     return (
-        <div className={`${isDarkMode ? 'bg-elementDark text-bgLight' : 'bg-secondary'}  pb-[5%]`}>
+        <div className={`${isDarkMode ? 'bg-elementDark text-bgLight' : 'bg-bgLight'}  p-[3%]`}>
             {console.log(data)}
             {error.length > 0 ?
                 <ErrorPage></ErrorPage> :
@@ -56,53 +56,66 @@ function DetailCountry() {
 
 
 
-                        <div key={data[0]?.name.common} className="flex m-5 ">
+                        <div key={data[0]?.name.common} className="flex m-5  ">
                             <img
-                                className="w-[50%] h-[70vh]"
+                                className="w-[50%] shadow-lg p-2"
                                 src={`${data[0]?.flags.png}`}
                                 alt={`${data[0]?.name.common}`} />
 
-                            <div className="w-[50%] px-10">
-                                <h2 className="text-4xl font-bold p-2">{data[0]?.name.common}</h2>
-                                <p className="p-2">
-                                    <b>Capital:</b> {data[0]?.capital}
-                                </p>
-                                <p className="p-2">
-                                    <b>Region:</b> {data[0]?.region}
-                                </p>
-                                <p className="p-2">
-                                    <b>Subregion:</b> {data[0]?.subregion}
-                                </p>
-                                <p className="p-2">
-                                    <b>Population:</b> {data[0]?.population}
-                                </p>
-                                <p className="p-2">
-                                    <b>Top Level Domain:</b> {data[0]?.tld[0]}
-                                </p>
-                                <p className="p-2">
-                                    <b>Currencies : </b>
-                                    {Object.keys(data[0]?.currencies)}
-                                </p>
-                                <p className="p-2">
-                                    <b>Languages : </b>
-                                    {Object.keys(data[0]?.languages).join(", ")}
-                                </p>
-                                <ul className="flex items-center flex-wrap">
-                                    <b>Border : </b>
-                                    {data[0].borders
-                                        ? data[0].borders.map((name) => {
-                                            return (
-                                                <>
-                                                    <Link to={`/${name}`}>
-                                                        <button key={name} className="border-2 border-black m-5 p-[1%]">  {name}</button>
-                                                    </Link>
-                                                </>
+                            <div className="w-[50%] px-10 flex flex-wrap">
+                                <h2 className="text-4xl font-bold p-2 w-[100%]">{data[0]?.name.common}</h2>
+
+                                <div className="w-[50%]">
+                                    <p className="p-2">
+                                        <b>Native Name:</b> {data[0]?.name.common}
+                                    </p>
+
+                                    <p className="p-2">
+                                        <b>Population:</b> {data[0]?.population}
+                                    </p>
+                                    <p className="p-2">
+                                        <b>Region:</b> {data[0]?.region}
+                                    </p>
+                                    <p className="p-2">
+                                        <b>Subregion:</b> {data[0]?.subregion}
+                                    </p>
+                                    <p className="p-2">
+                                        <b>Capital:</b> {data[0]?.capital}
+                                    </p>
+                                </div>
+                                <div className="w-[50%]">
+                                    <p className="p-2">
+                                        <b>Top Level Domain:</b> {data[0]?.tld[0]}
+                                    </p>
+                                    <p className="p-2">
+                                        <b>Currencies : </b>
+                                        {Object.keys(data[0]?.currencies)}
+                                    </p>
+                                    <p className="p-2">
+                                        <b>Languages : </b>
+                                        {Object.keys(data[0]?.languages).join(", ")}
+                                    </p>
+
+                                </div>
+                                <div className="w-[100%] mt-4 p-4">
+
+                                    <ul className="flex items-center flex-wrap w-[100%]">
+                                        <b>Border : </b>
+                                        {data[0].borders
+                                            ? data[0].borders.map((name) => {
+                                                return (
+                                                    <>
+                                                        <Link to={`/${name}`}>
+                                                            <button key={name} className="m-1 p-[5%] shadow-lg">  {name}</button>
+                                                        </Link>
+                                                    </>
 
 
-                                            );
-                                        })
-                                        : " No borders"}
-                                </ul>
+                                                );
+                                            })
+                                            : " No borders"}
+                                    </ul>
+                                </div>
                             </div>
                         </div ></>
 

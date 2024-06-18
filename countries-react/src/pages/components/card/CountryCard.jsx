@@ -9,7 +9,7 @@ function CountryCard({ countriesData }) {
 
     return (
 
-        <div className={`flex flex-row flex-wrap justify-between p-[1%]   ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'}`}>
+        <div className="flex flex-row flex-wrap justify-between p-[1%]">
             {countriesData.map((country) => (
                 <div key={country.name.common} className={`w-[22%] shadow-md my-[1%] rounded-xl  ${isDarkMode ? 'bg-elementDark text-textDark' : 'bg-elementLight text-textLight'}`} >
                     <Link to={`/${country.cca3}`} >

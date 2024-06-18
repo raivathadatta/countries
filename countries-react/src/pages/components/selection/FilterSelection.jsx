@@ -5,7 +5,7 @@ function FilterSelection({ sectionOptions, selectionOnChange, defaultSelectionTa
     let { isDarkMode } = useContext(StyleContext)
 
     return (
-        <select onChange={selectionOnChange} className={`outline-none p-[1%] ${isDarkMode ? 'bg-inputDark text-' : 'bg-bgLight '} `}>
+        <select onChange={selectionOnChange} className={`outline-none p-[1%] shadow-lg ${isDarkMode ? 'bg-inputDark ' : 'bg-elementLight '} `}>
             <option hidden>{defaultSelectionTag}</option>
             {
                 sectionOptions.map((option) => <option value={option} key={option}>{option}</option>)

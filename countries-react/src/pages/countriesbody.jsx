@@ -22,14 +22,14 @@ function CountryBody() {
 
     let [region, setRegion] = useState('')//contains selected region name
     let regionList = Object.keys(countries.region)
-    
+
     // let countriesListData = countries.countriesList
 
     let [subRegionList, setSubRegionList] = useState([])//contains subregions list in the region
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
 
     let [error, setError] = useState('')//
-    
+
 
     useEffect(() => {
         async function getCountriesData() {
@@ -130,7 +130,7 @@ function CountryBody() {
             {error.length > 0 ? <ErrorPage></ErrorPage> :
                 countries.countriesList.length == 0 ? <div id="loader"></div> :
                     <>
-                        <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'}`}>
+                        <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
                             <FilterInput searchByInputValue={searchByInput}></FilterInput>
                             <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTag={'Filter By Region'} ></FilterSelection>
                             {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTag={'Filter By SubRegion'} ></FilterSelection>
@@ -138,7 +138,12 @@ function CountryBody() {
                             <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTag={'Sort by Population'} ></FilterSelection>
                             <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTag={'Sort By Area'} ></FilterSelection>
                         </div>
-                        <CountryCard countriesData={filterData} ></CountryCard>
+                        <div className={`min-h-[90vh] ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
+                            {
+                                filterData.length == 0 ? <h1 className="text-[30px] ml-[2%]"> No Country Found ................</h1> :
+                                    <CountryCard countriesData={filterData} ></CountryCard>
+                            }
+                        </div>
                     </>
             }
         </>
