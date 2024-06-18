@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import DetailCountry from "./pages/detailcountry";
 import AppBar from  "../src/pages/components/appbars/AppBar";
 import DetailCountry from "../src/pages/details"
+import ErrorPage from './pages/errorPage';
 function App() {
 
   return (
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<CountryBody></CountryBody>}></Route>
             <Route exact path="/:id" element={<DetailCountry></DetailCountry>}></Route>
+            <Route path='*' element ={<ErrorPage></ErrorPage>}></Route>
           </Routes>
 
 

@@ -5,6 +5,7 @@ import countriesData from "../data/countries-data";
 import { useContext, useEffect, useState } from "react";
 import CountryCard from "./components/card/CountryCard";
 import StyleContext from "../context/style-context";
+import ErrorPage from "./errorPage";
 
 
 
@@ -19,35 +20,41 @@ function CountryBody() {
 
     ///sub regions
 
-
     let [region, setRegion] = useState('')//contains selected region name
     let regionList = Object.keys(countries.region)
     // let countriesListData = countries.countryiesList
 
-
-
     let [subRegionList, setSubRegionList] = useState([])//contains subregions list in the region
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
 
+    let [error, setError] = useState('')//
     ///
 
     useEffect(() => {
         async function getCountriesData() {
-            let countries = await countriesData()
-            let regionData = {}
-            countries.forEach(country => {
-                if (!regionData[country.region]) {
-                    regionData[country.region] = new Set()
-                }
-                regionData[country.region].add(country.subregion)
+            try {
+                let countries = await countriesData()
+                let regionData = {}
+                countries.forEach(country => {
+                    if (!regionData[country.region]) {
+                        regionData[country.region] = new Set()
+                    }
+                    regionData[country.region].add(country.subregion)
 
-            });
-            setFilterData(countries)
-            setCountries({ countryiesList: countries, region: regionData })
+                });
+                setFilterData(countries)
+                setCountries({ countryiesList: countries, region: regionData })
+
+            } catch (error) {
+                console.log(error)
+                setError(error.message)
+
+            }
         }
         getCountriesData()
     }, [])
     // sectionOptions,selectionOnChange
+
 
 
     let searchByRegion = (event) => {
@@ -83,7 +90,7 @@ function CountryBody() {
         }
         setFilterData(sortedCountries)
     }
-console.log(aa)
+
     let sortByArea = (event) => {
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
         let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.area - country2.area)
@@ -120,19 +127,22 @@ console.log(aa)
     return (
 
         <>
-            {countries.countryiesList.length == 0 ? <div id="loader"></div> :
+            {error.length > 0 ? <ErrorPage></ErrorPage> :
 
-                <>
-                    <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-glare'}`}>
-                        <FilterInput searchByInputValue={searchByInput}></FilterInput>
-                        <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTage={'Filter By Region'} ></FilterSelection>
-                        {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTage={'Filter By SubRegion'} ></FilterSelection>
-                        }
-                        <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTage={'Sort by Population'} ></FilterSelection>
-                        <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTage={'Sort By Area'} ></FilterSelection>
-                    </div>
-                    <CountryCard countriesData={filterData} ></CountryCard>
-                </>
+
+                countries.countryiesList.length == 0 ? <div id="loader"></div> :
+
+                    <>
+                        <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-glare'}`}>
+                            <FilterInput searchByInputValue={searchByInput}></FilterInput>
+                            <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTage={'Filter By Region'} ></FilterSelection>
+                            {subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={subRegionList} defaultSelectionTage={'Filter By SubRegion'} ></FilterSelection>
+                            }
+                            <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTage={'Sort by Population'} ></FilterSelection>
+                            <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTage={'Sort By Area'} ></FilterSelection>
+                        </div>
+                        <CountryCard countriesData={filterData} ></CountryCard>
+                    </>
             }
 
 
