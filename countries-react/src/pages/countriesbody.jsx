@@ -10,6 +10,9 @@ import ErrorPage from "./errorPage";
 
 
 let sort = ['Ascending', 'Descending']
+let sortSelectedByPopulation = "";
+let sortSelectedByArea=""
+
 
 function CountryBody() {
     let { isDarkMode } = useContext(StyleContext)
@@ -25,8 +28,7 @@ function CountryBody() {
 
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
 
-    let [error, setError] = useState('')//
-
+    let [error, setError] = useState('')// if error is set to the fetch data 
 
     useEffect(() => {
         async function getCountriesData() {
@@ -42,7 +44,7 @@ function CountryBody() {
                 });
                 setFilterData(countries)
                 setCountries({ countriesList: countries, region: regionData })
-
+              
             } catch (error) {
                 console.log(error)
                 setError(error.message)
@@ -51,12 +53,14 @@ function CountryBody() {
         }
         getCountriesData()
     }, [])
-    // sectionOptions,selectionOnChange
+
+
 
 
 
     let searchByRegion = (event) => {
-
+        sortSelectedByArea = "";
+        sortSelectedByPopulation = "";
         let selectedRegion = event.target.value
 
         let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
@@ -71,20 +75,23 @@ function CountryBody() {
             region: selectedRegion,
             subRegionList: [...subregions]
         })
-        // setSubRegionList([...subregions])
+
         setFilterData(regionCountries)
-        setSubRegion('')
+        setSubRegion('')// to set the name for filtering data to not to filter 
 
     }
 
     let searchBySubRegion = (event) => {
-
+        sortSelectedByArea = "";
+        sortSelectedByPopulation = "";
         let selectedSubRegion = event.target.value
         let subRegionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == regionData.region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
         setFilterData(subRegionCountries)
         setSubRegion(selectedSubRegion)
     }
     let sortByPopuLation = (event) => {
+    
+        sortSelectedByPopulation = event.target.value;
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
         let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.population - country2.population)
 
@@ -95,6 +102,7 @@ function CountryBody() {
     }
 
     let sortByArea = (event) => {
+        sortSelectedByArea = event.target.value;
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
         let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.area - country2.area)
 
@@ -126,6 +134,7 @@ function CountryBody() {
     }
 
 
+
     return (
 
         <>
@@ -137,8 +146,8 @@ function CountryBody() {
                             <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTag={'Filter By Region'} ></FilterSelection>
                             {regionData.subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={regionData.subRegionList} defaultSelectionTag={'Filter By SubRegion'} ></FilterSelection>
                             }
-                            <FilterSelection selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTag={'Sort by Population'} ></FilterSelection>
-                            <FilterSelection selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTag={'Sort By Area'} ></FilterSelection>
+                            <FilterSelection defaultValue={sortSelectedByPopulation} selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTag={'Sort By Population'} ></FilterSelection>
+                            <FilterSelection defaultValue={sortSelectedByArea} selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTag={'Sort By Area'} ></FilterSelection>
                         </div>
                         <div className={`min-h-[90vh] ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
                             {
