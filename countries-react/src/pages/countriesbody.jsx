@@ -19,67 +19,36 @@ let sortSelectedByArea = ""
 function CountryBody() {
     let { countries, loading, error } = useContext(DataContext);
 
-    
+
     let { isDarkMode } = useContext(StyleContext)
-    console.log(countries,"llllllllllllllll")
-    
-    // let [countries, setCountries] = useState({ countriesList: [], region: {} })
+
+    console.log(countries)
+
     let [filterData, setFilterData] = useState([])
-    useEffect(()=>{
+    useEffect(() => {
         let copyOfCountryList = JSON.parse(JSON.stringify(countries))
-
         setFilterData(copyOfCountryList.countriesList)
-    } , [countries])
+    }, [countries])
 
-    // if(!loading){
-      
-    //     let copyOfCountryList = JSON.parse(JSON.stringify(countries))
 
-    //         setFilterData(copyOfCountryList.countriesList)
-    //         console.log(copyOfCountryList,"//////")
-    // }
-    // console.log(filterData)
-    
+    console.log(filterData)
+
     ///sub regions
     let regionList = Object.keys(countries.region)
-    
+
     let [regionData, setRegionData] = useState({ region: '', subRegionList: [] })///contains data for regions REGION NAME AND SUB REGION DATA 
-    
+
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
-    if (loading) {return  <div id="loader"></div> }
-    if (error) return <ErrorPage></ErrorPage> ;
+    if (loading) { return <div id="loader"></div> }
+    if (error) return <ErrorPage></ErrorPage>;
 
-    // let [error, setError] = useState('')// if error is set to the fetch data 
-
-    // useEffect(() => {
-    //     async function getCountriesData() {
-    //         try {
-    //             let countries = await countriesData()
-    //             let regionData = {}
-    //             countries.forEach(country => {
-    //                 if (!regionData[country.region]) {
-    //                     regionData[country.region] = new Set()
-    //                 }
-    //                 regionData[country.region].add(country.subregion)
-
-    //             });
-    //             setFilterData(countries)
-    //             setCountries({ countriesList: countries, region: regionData })
-
-    //         } catch (error) {
-    //             console.log(error)
-    //             setError(error.message)
-
-    //         }
-    //     }
-    //     getCountriesData()
-    // }, [])
 
 
 
 
 
     let searchByRegion = (event) => {
+
         sortSelectedByArea = "";
         sortSelectedByPopulation = "";
         let selectedRegion = event.target.value
@@ -99,7 +68,6 @@ function CountryBody() {
 
         setFilterData(regionCountries)
         setSubRegion('')// to set the name for filtering data to not to filter 
-
     }
 
     let searchBySubRegion = (event) => {
@@ -160,23 +128,22 @@ function CountryBody() {
 
         <>
             {
-                
-                    <>
-                        <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
-                            <FilterInput searchByInputValue={searchByInput}></FilterInput>
-                            <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTag={'Filter By Region'} ></FilterSelection>
-                            {regionData.subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={regionData.subRegionList} defaultSelectionTag={'Filter By SubRegion'} ></FilterSelection>
-                            }
-                            <FilterSelection defaultValue={sortSelectedByPopulation} selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTag={'Sort By Population'} ></FilterSelection>
-                            <FilterSelection defaultValue={sortSelectedByArea} selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTag={'Sort By Area'} ></FilterSelection>
-                        </div>
-                        <div className={`min-h-[90vh] ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
-                            {
-                                // filterData.length == 0 ? <h1 className="text-[30px] ml-[2%]"> No Country Found ................</h1> :
-                                    <CountryCard countriesData={filterData} ></CountryCard>
-                            }
-                        </div>
-                    </>
+
+                <>
+                    <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
+                        <FilterInput searchByInputValue={searchByInput}></FilterInput>
+                        <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTag={'Filter By Region'} ></FilterSelection>
+                        {regionData.subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={regionData.subRegionList} defaultSelectionTag={'Filter By SubRegion'} ></FilterSelection>
+                        }
+                        <FilterSelection defaultValue={sortSelectedByPopulation} selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTag={'Sort By Population'} ></FilterSelection>
+                        <FilterSelection defaultValue={sortSelectedByArea} selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTag={'Sort By Area'} ></FilterSelection>
+                    </div>
+                    <div className={`min-h-[90vh] ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
+                        {
+                              <CountryCard countriesData={filterData} ></CountryCard>
+                        }
+                    </div>
+                </>
             }
         </>
     )
