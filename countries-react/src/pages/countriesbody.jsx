@@ -1,58 +1,79 @@
 
 import FilterInput from "./components/input/FilterInput";
 import FilterSelection from "./components/selection/FilterSelection";
-import countriesData from "../data/countries-data";
+// import countriesData from "../data/countries-data";
 import { useContext, useEffect, useState } from "react";
 import CountryCard from "./components/card/CountryCard";
 import StyleContext from "../context/style-context";
 import ErrorPage from "./errorPage";
 
+import { DataContext } from "../context/data-context/data-context";
+
 
 
 let sort = ['Ascending', 'Descending']
 let sortSelectedByPopulation = "";
-let sortSelectedByArea=""
+let sortSelectedByArea = ""
 
 
 function CountryBody() {
+    let { countries, loading, error } = useContext(DataContext);
+
+    
     let { isDarkMode } = useContext(StyleContext)
-
-
-    let [countries, setCountries] = useState({ countriesList: [], region: {} })
+    console.log(countries,"llllllllllllllll")
+    
+    // let [countries, setCountries] = useState({ countriesList: [], region: {} })
     let [filterData, setFilterData] = useState([])
+    useEffect(()=>{
+        let copyOfCountryList = JSON.parse(JSON.stringify(countries))
 
+        setFilterData(copyOfCountryList.countriesList)
+    } , [countries])
+
+    // if(!loading){
+      
+    //     let copyOfCountryList = JSON.parse(JSON.stringify(countries))
+
+    //         setFilterData(copyOfCountryList.countriesList)
+    //         console.log(copyOfCountryList,"//////")
+    // }
+    // console.log(filterData)
+    
     ///sub regions
     let regionList = Object.keys(countries.region)
-
+    
     let [regionData, setRegionData] = useState({ region: '', subRegionList: [] })///contains data for regions REGION NAME AND SUB REGION DATA 
-
+    
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
+    if (loading) {return  <div id="loader"></div> }
+    if (error) return <ErrorPage></ErrorPage> ;
 
-    let [error, setError] = useState('')// if error is set to the fetch data 
+    // let [error, setError] = useState('')// if error is set to the fetch data 
 
-    useEffect(() => {
-        async function getCountriesData() {
-            try {
-                let countries = await countriesData()
-                let regionData = {}
-                countries.forEach(country => {
-                    if (!regionData[country.region]) {
-                        regionData[country.region] = new Set()
-                    }
-                    regionData[country.region].add(country.subregion)
+    // useEffect(() => {
+    //     async function getCountriesData() {
+    //         try {
+    //             let countries = await countriesData()
+    //             let regionData = {}
+    //             countries.forEach(country => {
+    //                 if (!regionData[country.region]) {
+    //                     regionData[country.region] = new Set()
+    //                 }
+    //                 regionData[country.region].add(country.subregion)
 
-                });
-                setFilterData(countries)
-                setCountries({ countriesList: countries, region: regionData })
-              
-            } catch (error) {
-                console.log(error)
-                setError(error.message)
+    //             });
+    //             setFilterData(countries)
+    //             setCountries({ countriesList: countries, region: regionData })
 
-            }
-        }
-        getCountriesData()
-    }, [])
+    //         } catch (error) {
+    //             console.log(error)
+    //             setError(error.message)
+
+    //         }
+    //     }
+    //     getCountriesData()
+    // }, [])
 
 
 
@@ -90,7 +111,7 @@ function CountryBody() {
         setSubRegion(selectedSubRegion)
     }
     let sortByPopuLation = (event) => {
-    
+
         sortSelectedByPopulation = event.target.value;
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
         let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.population - country2.population)
@@ -138,8 +159,8 @@ function CountryBody() {
     return (
 
         <>
-            {error.length > 0 ? <ErrorPage></ErrorPage> :
-                countries.countriesList.length == 0 ? <div id="loader"></div> :
+            {
+                
                     <>
                         <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
                             <FilterInput searchByInputValue={searchByInput}></FilterInput>
@@ -151,7 +172,7 @@ function CountryBody() {
                         </div>
                         <div className={`min-h-[90vh] ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
                             {
-                                filterData.length == 0 ? <h1 className="text-[30px] ml-[2%]"> No Country Found ................</h1> :
+                                // filterData.length == 0 ? <h1 className="text-[30px] ml-[2%]"> No Country Found ................</h1> :
                                     <CountryCard countriesData={filterData} ></CountryCard>
                             }
                         </div>
