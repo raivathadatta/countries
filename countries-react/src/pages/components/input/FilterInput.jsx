@@ -3,7 +3,7 @@ import StyleContext from "../../../context/style-context";
 
 
 
-let FilterInput = ({ searchByInputValue }) => {
+let FilterInput = ({ searchByInputValue,inputValue}) => {
     let { isDarkMode } = useContext(StyleContext)
     const searchInput = (event) => {
         console.log("searchInput")
@@ -11,7 +11,7 @@ let FilterInput = ({ searchByInputValue }) => {
     }
 
     return (
-        <input type="text" onKeyUp={searchInput} className={`w-[30%] p-[1%] shadow-lg ${isDarkMode ? 'bg-inputDark ' : 'bg-elementLight '}`} placeholder="Search for country .." />
+        <input type="text" value={inputValue} onChange={searchInput} className={`w-[30%] p-[1%] shadow-lg ${isDarkMode ? 'bg-inputDark ' : 'bg-elementLight '}`} placeholder="Search for country .." />
 
     )
 }
