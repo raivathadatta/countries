@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { useContext } from "react";
 import StyleContext from "../context/style-context";
-import ErrorPage from "./errorPage";
+import ErrorPage from "./ErrorPage";
 
 import { DataContext } from "../context/data-context/data-context";
 
@@ -23,7 +23,7 @@ function DetailCountry() {
         if (requiredCountry.length == 0) {
             setError("NO Country Found")
         }
-    }, [id])
+    }, [countries.countriesList, id])
     if (loading) {
         return (
             <div id='loader' ></div >

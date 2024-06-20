@@ -1,12 +1,12 @@
 
-import FilterInput from "./components/input/FilterInput";
-import FilterSelection from "./components/selection/FilterSelection";
+import FilterInput from "./components/input/Filter_Input";
+import FilterSelection from "./components/selection/Filter_Selection";
 import { useContext, useEffect, useState } from "react";
-import CountryCard from "./components/card/CountryCard";
+import CountryCard from "./components/card/Country_Card";
 import StyleContext from "../context/style-context";
-import ErrorPage from "./errorPage";
-
+import ErrorPage from "./ErrorPage";
 import { DataContext } from "../context/data-context/data-context";
+
 
 
 
@@ -39,7 +39,7 @@ function CountryBody() {
 
     let [subRegion, setSubRegion] = useState('')//contains selected subregion name
     if (loading) { return <div id="loader"></div> }
-    if (error) return <ErrorPage></ErrorPage>;
+    if (error) {return <ErrorPage></ErrorPage>}
 
 
 
@@ -103,6 +103,7 @@ function CountryBody() {
     }
 
     let searchByInput = (event) => {
+        
         let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
         let subregion = subRegion
         let searchValue = event.target.value.toLowerCase()
@@ -123,13 +124,9 @@ function CountryBody() {
         setFilterData(searchedCountries)
     }
 
-
-
     return (
-
         <>
             {
-
                 <>
                     <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
                         <FilterInput searchByInputValue={searchByInput}></FilterInput>
