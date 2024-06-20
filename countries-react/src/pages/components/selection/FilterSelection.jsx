@@ -1,11 +1,15 @@
 import { useContext } from "react";
 import StyleContext from "../../../context/style-context";
 
-function FilterSelection({ defaultValue, sectionOptions, selectionOnChange, defaultSelectionTag }) {
-    let { isDarkMode } = useContext(StyleContext)
+function FilterSelection({ selectedValue, sectionOptions, selectionOnChange, defaultSelectionTag }) {
+    const { isDarkMode } = useContext(StyleContext)
+    const onChangeCallBack = (event) => {
+        selectionOnChange(event.target.value)
+    }
+    console.log(sectionOptions)
 
     return (
-        <select value={defaultValue} onChange={selectionOnChange} className={`outline-none p-[1%] shadow-lg ${isDarkMode ? 'bg-inputDark ' : 'bg-elementLight '} `}>
+        <select value={selectedValue} onChange={onChangeCallBack} className={`outline-none p-[1%] shadow-lg ${isDarkMode ? 'bg-inputDark ' : 'bg-elementLight '} `}>
             <option value="" hidden>{defaultSelectionTag}</option>
             {
                 sectionOptions.map((option) => <option value={option} key={option}>{option}</option>)
