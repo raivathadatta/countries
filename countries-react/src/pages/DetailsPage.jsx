@@ -6,7 +6,7 @@ import StyleContext from "../context/style-context";
 import ErrorPage from "./ErrorPage";
 
 console.log(countriesData());
-function DetailCountry() {
+function DetailsPage() {
   let { id } = useParams();
   const [data, setCountry] = useState([]);
   const [loading, setLoading] = useState([true]);
@@ -128,4 +128,4 @@ function DetailCountry() {
   );
 }
 
-export default DetailCountry;
+export default DetailsPage;

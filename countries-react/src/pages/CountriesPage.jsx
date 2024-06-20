@@ -5,13 +5,12 @@ import { useContext, useEffect, useState } from "react";
 import CountryCard from "./components/card/CountryCard";
 import StyleContext from "../context/style-context";
 import ErrorPage from "./ErrorPage";
-
-const sort = ["Ascending", "Decrementing"];
-function CountryBody() {
+function CountriesPage() {
+  const sort = ["Ascending", "Decrementing"];
   const { isDarkMode } = useContext(StyleContext);
 
   const [countries, setCountries] = useState({ countriesList: [], region: {} });
-  const [region, setRegion] = useState();
+  const [region, setRegion] = useState("");
   const [subRegion, setSubRegion] = useState();
   const [sortByArea, setSortByArea] = useState("");
   const [sortByPopuLation, setSortByPopuLation] = useState("");
@@ -46,7 +45,6 @@ function CountryBody() {
 
   const getSubRegions = (region) => {
     console.log(region);
-
     const filteredSubRegions = countries.countriesList
       .filter((country) => country.region === region)
       .map((country) => country.subregion);
@@ -122,9 +120,11 @@ function CountryBody() {
   const filteredData = filterData();
 
   const regionData = getSubRegions(region);
+
   if (loading) {
     return <div id="loader"></div>;
   }
+
   if (error) {
     return <ErrorPage></ErrorPage>;
   }
@@ -189,4 +189,4 @@ function CountryBody() {
   );
 }
 
-export default CountryBody;
+export default CountriesPage;
