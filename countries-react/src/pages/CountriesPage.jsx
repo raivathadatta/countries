@@ -1,4 +1,4 @@
-import FilterInput from "./components/input/FilterInput";
+import FilterInput from "./components/inputs/FilterInput";
 import FilterSelection from "./components/selection/FilterSelection";
 import countriesData from "../data/countries-data";
 import { useContext, useEffect, useState } from "react";
