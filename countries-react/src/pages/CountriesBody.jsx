@@ -10,7 +10,7 @@ import { DataContext } from "../context/data-context/DataContext";
 
 
 
-let sort = ['Ascending', 'Descending']
+const sort = ['Ascending', 'Descending']
 let sortSelectedByPopulation = "";
 let sortSelectedByArea = ""
 
@@ -52,8 +52,7 @@ function CountryBody() {
         sortSelectedByPopulation = "";
         let selectedRegion = event.target.value
 
-        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
-        let regionCountries = copyOfCountryList.filter(country => country.region.toLowerCase() == selectedRegion.toLowerCase())
+        let regionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == selectedRegion.toLowerCase())
         let subregions = regionCountries.reduce((acuminates, currentValue) => {
             acuminates.add(currentValue.subregion)
             return acuminates
@@ -103,12 +102,11 @@ function CountryBody() {
     }
 
     const searchByInput = (event) => {
-        
-        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
+
         let subregion = subRegion
         let searchValue = event.target.value.toLowerCase()
         let selectedRegion = regionData.region
-        let selectedRegionsList = copyOfCountryList.filter(country => country.region === selectedRegion)
+        let selectedRegionsList = countries.countriesList.filter(country => country.region === selectedRegion)
         let selectedSubRegionsList = selectedRegionsList.filter(country => country.subregion === subregion)
 
         if (selectedSubRegionsList.length > 0) {
@@ -120,7 +118,7 @@ function CountryBody() {
             setFilterData(searchedCountries)
             return
         }
-        let searchedCountries = copyOfCountryList.filter(country => country.name.common.toLowerCase().includes(searchValue))
+        let searchedCountries = countries.countriesList.filter(country => country.name.common.toLowerCase().includes(searchValue))
         setFilterData(searchedCountries)
     }
 
