@@ -3,7 +3,7 @@ import countriesData from "../data/countries-data"
 import { Link, useParams } from "react-router-dom"
 import { useContext } from "react";
 import StyleContext from "../context/style-context";
-import ErrorPage from "./errorPage";
+import ErrorPage from "./ErrorPage";
 
 
 
@@ -11,10 +11,10 @@ import ErrorPage from "./errorPage";
 console.log(countriesData())
 function DetailCountry() {
     let { id } = useParams()
-    let [data, setCountry] = useState([])
-    let [loading, setLoading] = useState([true])
-    let [error, setError] = useState('')
-    let { isDarkMode } = useContext(StyleContext)
+    const [data, setCountry] = useState([])
+    const [loading, setLoading] = useState([true])
+    const [error, setError] = useState('')
+    const { isDarkMode } = useContext(StyleContext)
     console.log(id,)
 
     useEffect(() => {

@@ -5,36 +5,36 @@ import countriesData from "../data/countries-data";
 import { useContext, useEffect, useState } from "react";
 import CountryCard from "./components/card/CountryCard";
 import StyleContext from "../context/style-context";
-import ErrorPage from "./errorPage";
+import ErrorPage from "./ErrorPage";
 
 
 
-let sort = ['Ascending', 'Descending']
+const sort = ['Ascending', 'Descending']
 let sortSelectedByPopulation = "";
 let sortSelectedByArea=""
 
 
 function CountryBody() {
-    let { isDarkMode } = useContext(StyleContext)
+    const { isDarkMode } = useContext(StyleContext)
 
 
-    let [countries, setCountries] = useState({ countriesList: [], region: {} })
-    let [filterData, setFilterData] = useState([])
+    const [countries, setCountries] = useState({ countriesList: [], region: {} })
+    const [filterData, setFilterData] = useState([])
 
     ///sub regions
-    let regionList = Object.keys(countries.region)
+    const regionList = Object.keys(countries.region)
 
-    let [regionData, setRegionData] = useState({ region: '', subRegionList: [] })///contains data for regions REGION NAME AND SUB REGION DATA 
+    const [regionData, setRegionData] = useState({ region: '', subRegionList: [] })///contains data for regions REGION NAME AND SUB REGION DATA 
 
-    let [subRegion, setSubRegion] = useState('')//contains selected subregion name
+    const [subRegion, setSubRegion] = useState('')//contains selected subregion name
 
-    let [error, setError] = useState('')// if error is set to the fetch data 
+    const [error, setError] = useState('')// if error is set to the fetch data 
 
     useEffect(() => {
         async function getCountriesData() {
             try {
-                let countries = await countriesData()
-                let regionData = {}
+                const countries = await countriesData()
+                const regionData = {}
                 countries.forEach(country => {
                     if (!regionData[country.region]) {
                         regionData[country.region] = new Set()
@@ -58,14 +58,13 @@ function CountryBody() {
 
 
 
-    let searchByRegion = (event) => {
+    const searchByRegion = (event) => {
         sortSelectedByArea = "";
         sortSelectedByPopulation = "";
-        let selectedRegion = event.target.value
+        const selectedRegion = event.target.value
 
-        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
-        let regionCountries = copyOfCountryList.filter(country => country.region.toLowerCase() == selectedRegion.toLowerCase())
-        let subregions = regionCountries.reduce((acuminates, currentValue) => {
+        const regionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == selectedRegion.toLowerCase())
+        const subregions = regionCountries.reduce((acuminates, currentValue) => {
             acuminates.add(currentValue.subregion)
             return acuminates
         }, new Set())
@@ -81,19 +80,19 @@ function CountryBody() {
 
     }
 
-    let searchBySubRegion = (event) => {
+    const searchBySubRegion = (event) => {
         sortSelectedByArea = "";
         sortSelectedByPopulation = "";
-        let selectedSubRegion = event.target.value
-        let subRegionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == regionData.region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
+        const selectedSubRegion = event.target.value
+        const subRegionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == regionData.region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
         setFilterData(subRegionCountries)
         setSubRegion(selectedSubRegion)
     }
-    let sortByPopuLation = (event) => {
+    const sortByPopuLation = (event) => {
     
         sortSelectedByPopulation = event.target.value;
-        let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
-        let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.population - country2.population)
+        const copyOfFilterData = JSON.parse(JSON.stringify(filterData))
+        const sortedCountries = copyOfFilterData.sort((country1, country2) => country1.population - country2.population)
 
         if (event.target.value == sort[1]) {
             sortedCountries.reverse();
@@ -101,10 +100,10 @@ function CountryBody() {
         setFilterData(sortedCountries)
     }
 
-    let sortByArea = (event) => {
+    const sortByArea = (event) => {
         sortSelectedByArea = event.target.value;
-        let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
-        let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.area - country2.area)
+        const copyOfFilterData = JSON.parse(JSON.stringify(filterData))
+        const sortedCountries = copyOfFilterData.sort((country1, country2) => country1.area - country2.area)
 
         if (event.target.value == sort[1]) {
             sortedCountries.reverse();
@@ -112,24 +111,24 @@ function CountryBody() {
         setFilterData(sortedCountries)
     }
 
-    let searchByInput = (event) => {
-        let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
-        let subregion = subRegion
-        let searchValue = event.target.value.toLowerCase()
-        let selectedRegion = regionData.region
-        let selectedRegionsList = copyOfCountryList.filter(country => country.region === selectedRegion)
-        let selectedSubRegionsList = selectedRegionsList.filter(country => country.subregion === subregion)
+    const searchByInput = (event) => {
+    
+        const subregion = subRegion
+        const searchValue = event.target.value.toLowerCase()
+        const selectedRegion = regionData.region
+        const selectedRegionsList = countries.countriesList.filter(country => country.region === selectedRegion)
+        const selectedSubRegionsList = selectedRegionsList.filter(country => country.subregion === subregion)
 
         if (selectedSubRegionsList.length > 0) {
-            let searchedCountries = selectedSubRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
+            const searchedCountries = selectedSubRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
             setFilterData(searchedCountries)
             return
         } else if (selectedRegionsList.length > 0) {
-            let searchedCountries = selectedRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
+            const searchedCountries = selectedRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
             setFilterData(searchedCountries)
             return
         }
-        let searchedCountries = copyOfCountryList.filter(country => country.name.common.toLowerCase().includes(searchValue))
+        const searchedCountries = countries.countriesList.filter(country => country.name.common.toLowerCase().includes(searchValue))
         setFilterData(searchedCountries)
     }
 

@@ -1,15 +1,11 @@
 
 import './App.css'
 import StyleStateContext from './context/Style-State-Context'
-import CountryBody from './pages/countriesbody'
-// import ReactDOM from "react-dom/client";
+import CountryBody from './pages/CountriesBody'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import AppBar from "/components/appbars/AppBar";
-// import AppBar from "../components/appbars/AppBar";
-// import DetailCountry from "./pages/detailcountry";
 import AppBar from  "../src/pages/components/appbars/AppBar";
-import DetailCountry from "../src/pages/details"
-import ErrorPage from './pages/errorPage';
+import DetailCountry from "../src/pages/Details"
+import ErrorPage from './pages/ErrorPage';
 function App() {
 
   return (
