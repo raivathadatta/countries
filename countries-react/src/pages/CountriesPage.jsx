@@ -6,7 +6,6 @@ import CountryCard from "./components/card/CountryCard";
 import StyleContext from "../context/style-context";
 import ErrorPage from "./ErrorPage";
 function CountriesPage() {
-  const sort = ["Ascending", "Decrementing"];
   const { isDarkMode } = useContext(StyleContext);
 
   const [countries, setCountries] = useState({ countriesList: [], region: {} });
@@ -85,7 +84,7 @@ function CountriesPage() {
       filterData = filterData.sort(
         (country1, country2) => country2.area - country1.area
       );
-      if (sortByArea == sort[1]) {
+      if (sortByArea == 'Descending') {
         filterData.reverse();
       }
     }
@@ -93,7 +92,7 @@ function CountriesPage() {
       filterData = filterData.sort(
         (country1, country2) => country2.population - country1.population
       );
-      if (sortByPopuLation == sort[1]) {
+      if (sortByPopuLation == 'Descending') {
         filterData.reverse();
       }
     }
@@ -159,13 +158,13 @@ function CountriesPage() {
             <FilterSelection
               selectedValue={sortByPopuLation}
               selectionOnChange={sortFilterDataBasedOnPopulation}
-              sectionOptions={sort}
+              sectionOptions={["Ascending", "Descending"]}
               defaultSelectionTag={"Sort By Population"}
             ></FilterSelection>
             <FilterSelection
               selectedValue={sortByArea}
               selectionOnChange={sortFilterDataBasedOnArea}
-              sectionOptions={sort}
+              sectionOptions={["Ascending", "Descending"]}
               defaultSelectionTag={"Sort By Area"}
             ></FilterSelection>
           </div>
