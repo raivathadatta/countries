@@ -1,7 +1,7 @@
 
 
 import { useContext } from "react";
-import StyleContext from "../../../context/style-context";
+import StyleContext from "../../../context/StyleContext";
 import { Link } from "react-router-dom";
 function CountryCard({ countriesData }) {
 

@@ -1,5 +1,5 @@
 
-import StyleContext from "./style-context"
+import StyleContext from "./StyleContext"
 import { useState } from 'react'
 
 

@@ -3,9 +3,9 @@ import FilterInput from "./components/input/Filter_Input";
 import FilterSelection from "./components/selection/Filter_Selection";
 import { useContext, useEffect, useState } from "react";
 import CountryCard from "./components/card/Country_Card";
-import StyleContext from "../context/style-context";
+import StyleContext from "../context/StyleContext";
 import ErrorPage from "./ErrorPage";
-import { DataContext } from "../context/data-context/data-context";
+import { DataContext } from "../context/data-context/DataContext";
 
 
 

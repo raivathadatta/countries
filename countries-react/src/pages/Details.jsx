@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { useContext } from "react";
-import StyleContext from "../context/style-context";
+import StyleContext from "../context/StyleContext";
 import ErrorPage from "./ErrorPage";
 
-import { DataContext } from "../context/data-context/data-context";
+import { DataContext } from "../context/data-context/DataContext";
 
 function DetailCountry() {
     let { countries } = useContext(DataContext);

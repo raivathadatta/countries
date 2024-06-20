@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import StyleContext from "../../../context/style-context";
+import StyleContext from "../../../context/StyleContext";
 
 function FilterSelection({ defaultValue, sectionOptions, selectionOnChange, defaultSelectionTag }) {
     let { isDarkMode } = useContext(StyleContext)

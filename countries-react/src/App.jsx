@@ -1,6 +1,6 @@
 
 import './App.css'
-import StyleStateContext from './context/Style-State-Context'
+import StyleStateContext from './context/StyleStateContext'
 import CountryBody from './pages/CountriesBody'
 // import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppBar from "./pages/components/appbars/App-Bar";
 import DetailCountry from "../src/pages/Details"
 import ErrorPage from './pages/ErrorPage';
-import { DataProvider } from './context/data-context/data-context';
+import { DataProvider } from './context/data-context/DataContext';
 function App() {
 
   return (
