@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import countriesData from "../data/countries-data"
 import { Link, useParams } from "react-router-dom"
 import { useContext } from "react";
 import StyleContext from "../context/style-context";
@@ -7,10 +6,6 @@ import ErrorPage from "./errorPage";
 
 import { DataContext } from "../context/data-context/data-context";
 
-
-
-
-console.log(countriesData())
 function DetailCountry() {
     let { countries } = useContext(DataContext);
     let { id } = useParams()
@@ -28,7 +23,6 @@ function DetailCountry() {
         if (requiredCountry.length == 0) {
             setError("NO Country Found")
         }
-
     }, [id])
     if (loading) {
         return (

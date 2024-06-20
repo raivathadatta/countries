@@ -1,7 +1,6 @@
 
 import FilterInput from "./components/input/FilterInput";
 import FilterSelection from "./components/selection/FilterSelection";
-// import countriesData from "../data/countries-data";
 import { useContext, useEffect, useState } from "react";
 import CountryCard from "./components/card/CountryCard";
 import StyleContext from "../context/style-context";
@@ -81,6 +80,7 @@ function CountryBody() {
     let sortByPopuLation = (event) => {
 
         sortSelectedByPopulation = event.target.value;
+        sortSelectedByArea = "";
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
         let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.population - country2.population)
 
@@ -92,6 +92,7 @@ function CountryBody() {
 
     let sortByArea = (event) => {
         sortSelectedByArea = event.target.value;
+        sortSelectedByPopulation=''
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
         let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.area - country2.area)
 
