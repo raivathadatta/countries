@@ -1,4 +1,3 @@
-
 import FilterInput from "./components/input/Filter_Input";
 import FilterSelection from "./components/selection/Filter_Selection";
 import { useContext, useEffect, useState } from "react";
@@ -7,142 +6,179 @@ import StyleContext from "../context/StyleContext";
 import ErrorPage from "./ErrorPage";
 import { DataContext } from "../context/data-context/DataContext";
 
-
-
-
-const sort = ['Ascending', 'Descending']
+const sort = ["Ascending", "Descending"];
 let sortSelectedByPopulation = "";
-let sortSelectedByArea = ""
-
+let sortSelectedByArea = "";
 
 function CountryBody() {
-    const { countries, loading, error } = useContext(DataContext);
+  const { countries, loading, error } = useContext(DataContext);
 
+  const { isDarkMode } = useContext(StyleContext);
 
-    const { isDarkMode } = useContext(StyleContext)
+  console.log(countries);
 
-    console.log(countries)
+  const [filterData, setFilterData] = useState([]);
+  useEffect(() => {
+    let copyOfCountryList = JSON.parse(JSON.stringify(countries));
+    setFilterData(copyOfCountryList.countriesList);
+  }, [countries]);
 
-    const [filterData, setFilterData] = useState([])
-    useEffect(() => {
-        let copyOfCountryList = JSON.parse(JSON.stringify(countries))
-        setFilterData(copyOfCountryList.countriesList)
-    }, [countries])
+  ///sub regions
+  const regionList = Object.keys(countries.region);
 
+  const [regionData, setRegionData] = useState({
+    region: "",
+    subRegionList: [],
+  }); ///contains data for regions REGION NAME AND SUB REGION DATA
 
-    console.log(filterData)
+  const [subRegion, setSubRegion] = useState(""); //contains selected subregion name
+  if (loading) {
+    return <div id="loader"></div>;
+  }
+  if (error) {
+    return <ErrorPage></ErrorPage>;
+  }
 
-    ///sub regions
-    const regionList = Object.keys(countries.region)
+  const searchByRegion = (event) => {
+    sortSelectedByArea = "";
+    sortSelectedByPopulation = "";
+    let selectedRegion = event.target.value;
 
-    const [regionData, setRegionData] = useState({ region: '', subRegionList: [] })///contains data for regions REGION NAME AND SUB REGION DATA 
+    let regionCountries = countries.countriesList.filter(
+      (country) => country.region.toLowerCase() == selectedRegion.toLowerCase()
+    );
+    let subregions = regionCountries.reduce((acuminates, currentValue) => {
+      acuminates.add(currentValue.subregion);
+      return acuminates;
+    }, new Set());
 
-    const [subRegion, setSubRegion] = useState('')//contains selected subregion name
-    if (loading) { return <div id="loader"></div> }
-    if (error) {return <ErrorPage></ErrorPage>}
+    setRegionData({
+      ...regionData,
+      region: selectedRegion,
+      subRegionList: [...subregions],
+    });
 
+    setFilterData(regionCountries);
+    setSubRegion(""); // to set the name for filtering data to not to filter
+  };
 
+  const searchBySubRegion = (event) => {
+    sortSelectedByArea = "";
+    sortSelectedByPopulation = "";
+    let selectedSubRegion = event.target.value;
+    let subRegionCountries = countries.countriesList.filter(
+      (country) =>
+        country.subregion.toLowerCase() == selectedSubRegion.toLowerCase()
+    );
+    setFilterData(subRegionCountries);
+    setSubRegion(selectedSubRegion);
+  };
+  const sortByPopuLation = (event) => {
+    sortSelectedByPopulation = event.target.value;
+    sortSelectedByArea = "";
+    let copyOfFilterData = JSON.parse(JSON.stringify(filterData));
+    let sortedCountries = copyOfFilterData.sort(
+      (country1, country2) => country1.population - country2.population
+    );
 
-
-
-
-    const searchByRegion = (event) => {
-
-        sortSelectedByArea = "";
-        sortSelectedByPopulation = "";
-        let selectedRegion = event.target.value
-
-        let regionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == selectedRegion.toLowerCase())
-        let subregions = regionCountries.reduce((acuminates, currentValue) => {
-            acuminates.add(currentValue.subregion)
-            return acuminates
-        }, new Set())
-
-        setRegionData({
-            ...regionData,
-            region: selectedRegion,
-            subRegionList: [...subregions]
-        })
-
-        setFilterData(regionCountries)
-        setSubRegion('')// to set the name for filtering data to not to filter 
+    if (event.target.value == sort[1]) {
+      sortedCountries.reverse();
     }
+    setFilterData(sortedCountries);
+  };
 
-    const searchBySubRegion = (event) => {
-        sortSelectedByArea = "";
-        sortSelectedByPopulation = "";
-        let selectedSubRegion = event.target.value
-        let subRegionCountries = countries.countriesList.filter(country => country.region.toLowerCase() == regionData.region.toLowerCase()).filter(country => country.subregion.toLowerCase() == selectedSubRegion.toLowerCase())
-        setFilterData(subRegionCountries)
-        setSubRegion(selectedSubRegion)
+  const sortByArea = (event) => {
+    sortSelectedByArea = event.target.value;
+    sortSelectedByPopulation = "";
+    let copyOfFilterData = JSON.parse(JSON.stringify(filterData));
+    let sortedCountries = copyOfFilterData.sort(
+      (country1, country2) => country1.area - country2.area
+    );
+
+    if (event.target.value == sort[1]) {
+      sortedCountries.reverse();
     }
-    const sortByPopuLation = (event) => {
+    setFilterData(sortedCountries);
+  };
 
-        sortSelectedByPopulation = event.target.value;
-        sortSelectedByArea = "";
-        let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
-        let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.population - country2.population)
+  const searchByInput = (event) => {
+    let subregion = subRegion;
+    let searchValue = event.target.value.toLowerCase();
+    let selectedRegion = regionData.region;
+    let selectedRegionsList = countries.countriesList.filter(
+      (country) => country.region === selectedRegion
+    );
+    let selectedSubRegionsList = selectedRegionsList.filter(
+      (country) => country.subregion === subregion
+    );
 
-        if (event.target.value == sort[1]) {
-            sortedCountries.reverse();
-        }
-        setFilterData(sortedCountries)
+    if (selectedSubRegionsList.length > 0) {
+      let searchedCountries = selectedSubRegionsList.filter((country) =>
+        country.name.common.toLowerCase().includes(searchValue)
+      );
+      setFilterData(searchedCountries);
+      return;
+    } else if (selectedRegionsList.length > 0) {
+      let searchedCountries = selectedRegionsList.filter((country) =>
+        country.name.common.toLowerCase().includes(searchValue)
+      );
+      setFilterData(searchedCountries);
+      return;
     }
+    let searchedCountries = countries.countriesList.filter((country) =>
+      country.name.common.toLowerCase().includes(searchValue)
+    );
+    setFilterData(searchedCountries);
+  };
 
-    const sortByArea = (event) => {
-        sortSelectedByArea = event.target.value;
-        sortSelectedByPopulation=''
-        let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
-        let sortedCountries = copyOfFilterData.sort((country1, country2) => country1.area - country2.area)
-
-        if (event.target.value == sort[1]) {
-            sortedCountries.reverse();
-        }
-        setFilterData(sortedCountries)
-    }
-
-    const searchByInput = (event) => {
-
-        let subregion = subRegion
-        let searchValue = event.target.value.toLowerCase()
-        let selectedRegion = regionData.region
-        let selectedRegionsList = countries.countriesList.filter(country => country.region === selectedRegion)
-        let selectedSubRegionsList = selectedRegionsList.filter(country => country.subregion === subregion)
-
-        if (selectedSubRegionsList.length > 0) {
-            let searchedCountries = selectedSubRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
-            setFilterData(searchedCountries)
-            return
-        } else if (selectedRegionsList.length > 0) {
-            let searchedCountries = selectedRegionsList.filter(country => country.name.common.toLowerCase().includes(searchValue))
-            setFilterData(searchedCountries)
-            return
-        }
-        let searchedCountries = countries.countriesList.filter(country => country.name.common.toLowerCase().includes(searchValue))
-        setFilterData(searchedCountries)
-    }
-
-    return (
+  return (
+    <>
+      {
         <>
-            {
-                <>
-                    <div className={`flex justify-between p-[1%]  ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
-                        <FilterInput searchByInputValue={searchByInput}></FilterInput>
-                        <FilterSelection selectionOnChange={searchByRegion} sectionOptions={regionList} defaultSelectionTag={'Filter By Region'} ></FilterSelection>
-                        {regionData.subRegionList.length == 0 ? <div></div> : <FilterSelection selectionOnChange={searchBySubRegion} sectionOptions={regionData.subRegionList} defaultSelectionTag={'Filter By SubRegion'} ></FilterSelection>
-                        }
-                        <FilterSelection defaultValue={sortSelectedByPopulation} selectionOnChange={sortByPopuLation} sectionOptions={sort} defaultSelectionTag={'Sort By Population'} ></FilterSelection>
-                        <FilterSelection defaultValue={sortSelectedByArea} selectionOnChange={sortByArea} sectionOptions={sort} defaultSelectionTag={'Sort By Area'} ></FilterSelection>
-                    </div>
-                    <div className={`min-h-[90vh] ${isDarkMode ? 'bg-bgDark' : 'bg-bgLight'} `}>
-                        {
-                              <CountryCard countriesData={filterData} ></CountryCard>
-                        }
-                    </div>
-                </>
-            }
+          <div
+            className={`flex justify-between p-[1%]  ${
+              isDarkMode ? "bg-bgDark" : "bg-bgLight"
+            } `}
+          >
+            <FilterInput searchByInputValue={searchByInput}></FilterInput>
+            <FilterSelection
+              selectionOnChange={searchByRegion}
+              sectionOptions={regionList}
+              defaultSelectionTag={"Filter By Region"}
+            ></FilterSelection>
+            {regionData.subRegionList.length == 0 ? (
+              <div></div>
+            ) : (
+              <FilterSelection
+                selectionOnChange={searchBySubRegion}
+                sectionOptions={regionData.subRegionList}
+                defaultSelectionTag={"Filter By SubRegion"}
+              ></FilterSelection>
+            )}
+            <FilterSelection
+              defaultValue={sortSelectedByPopulation}
+              selectionOnChange={sortByPopuLation}
+              sectionOptions={sort}
+              defaultSelectionTag={"Sort By Population"}
+            ></FilterSelection>
+            <FilterSelection
+              defaultValue={sortSelectedByArea}
+              selectionOnChange={sortByArea}
+              sectionOptions={sort}
+              defaultSelectionTag={"Sort By Area"}
+            ></FilterSelection>
+          </div>
+          <div
+            className={`min-h-[90vh] ${
+              isDarkMode ? "bg-bgDark" : "bg-bgLight"
+            } `}
+          >
+            {<CountryCard countriesData={filterData}></CountryCard>}
+          </div>
         </>
-    )
+      }
+    </>
+  );
 }
 
-export default CountryBody
+export default CountryBody;
