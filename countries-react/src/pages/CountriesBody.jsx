@@ -16,14 +16,14 @@ let sortSelectedByArea = ""
 
 
 function CountryBody() {
-    let { countries, loading, error } = useContext(DataContext);
+    const { countries, loading, error } = useContext(DataContext);
 
 
-    let { isDarkMode } = useContext(StyleContext)
+    const { isDarkMode } = useContext(StyleContext)
 
     console.log(countries)
 
-    let [filterData, setFilterData] = useState([])
+    const [filterData, setFilterData] = useState([])
     useEffect(() => {
         let copyOfCountryList = JSON.parse(JSON.stringify(countries))
         setFilterData(copyOfCountryList.countriesList)
@@ -33,11 +33,11 @@ function CountryBody() {
     console.log(filterData)
 
     ///sub regions
-    let regionList = Object.keys(countries.region)
+    const regionList = Object.keys(countries.region)
 
-    let [regionData, setRegionData] = useState({ region: '', subRegionList: [] })///contains data for regions REGION NAME AND SUB REGION DATA 
+    const [regionData, setRegionData] = useState({ region: '', subRegionList: [] })///contains data for regions REGION NAME AND SUB REGION DATA 
 
-    let [subRegion, setSubRegion] = useState('')//contains selected subregion name
+    const [subRegion, setSubRegion] = useState('')//contains selected subregion name
     if (loading) { return <div id="loader"></div> }
     if (error) {return <ErrorPage></ErrorPage>}
 
@@ -46,7 +46,7 @@ function CountryBody() {
 
 
 
-    let searchByRegion = (event) => {
+    const searchByRegion = (event) => {
 
         sortSelectedByArea = "";
         sortSelectedByPopulation = "";
@@ -69,7 +69,7 @@ function CountryBody() {
         setSubRegion('')// to set the name for filtering data to not to filter 
     }
 
-    let searchBySubRegion = (event) => {
+    const searchBySubRegion = (event) => {
         sortSelectedByArea = "";
         sortSelectedByPopulation = "";
         let selectedSubRegion = event.target.value
@@ -77,7 +77,7 @@ function CountryBody() {
         setFilterData(subRegionCountries)
         setSubRegion(selectedSubRegion)
     }
-    let sortByPopuLation = (event) => {
+    const sortByPopuLation = (event) => {
 
         sortSelectedByPopulation = event.target.value;
         sortSelectedByArea = "";
@@ -90,7 +90,7 @@ function CountryBody() {
         setFilterData(sortedCountries)
     }
 
-    let sortByArea = (event) => {
+    const sortByArea = (event) => {
         sortSelectedByArea = event.target.value;
         sortSelectedByPopulation=''
         let copyOfFilterData = JSON.parse(JSON.stringify(filterData))
@@ -102,7 +102,7 @@ function CountryBody() {
         setFilterData(sortedCountries)
     }
 
-    let searchByInput = (event) => {
+    const searchByInput = (event) => {
         
         let copyOfCountryList = JSON.parse(JSON.stringify(countries.countriesList))
         let subregion = subRegion

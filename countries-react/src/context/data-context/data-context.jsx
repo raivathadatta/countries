@@ -1,17 +1,17 @@
 import { createContext, useState, useEffect } from 'react';
 
 // Create a context
-let DataContext = createContext();
+const DataContext = createContext();
 
 // Create a provider component
-let DataProvider = ({ children }) => {
+const DataProvider = ({ children }) => {
 
-    let [error, setError] = useState(null);
-    let [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    let [countries, setCountries] = useState({ countriesList: [], region: {} })
+    const [countries, setCountries] = useState({ countriesList: [], region: {} })
 
-    let fetchData = async () => {
+    const fetchData = async () => {
         try {
             let response = await fetch("https://restcountries.com/v3.1/all");
             let countriesData = await response.json();

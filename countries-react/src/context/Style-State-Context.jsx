@@ -3,12 +3,12 @@ import StyleContext from "./style-context"
 import { useState } from 'react'
 
 
-let StyleStateContext = (props) => {
+const StyleStateContext = (props) => {
 
-    let [isDarkMode, setDark] = useState(false)
+    const [isDarkMode, setDark] = useState(false)
 
 
-    let updateStyle = () => {
+    const updateStyle = () => {
         console.log("isDArkMode", isDarkMode)
         setDark(!isDarkMode)
     }

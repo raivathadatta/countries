@@ -1,4 +1,4 @@
 
 import { createContext } from "react";
-let StyleContext = createContext();
+const StyleContext = createContext();
 export default StyleContext;
