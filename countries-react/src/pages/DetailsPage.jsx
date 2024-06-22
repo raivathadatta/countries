@@ -29,7 +29,8 @@ function DetailsPage() {
         setError(error.message);
       }
     }
-    getCountriesData();
+  getCountriesData();
+   
 
 
   return (
