@@ -72,6 +72,7 @@ function CountriesPage() {
 
   const filterData = () => {
     let filterData = [...countries.countriesList];
+
     if (region) {
       filterData = filterData.filter((country) => country.region == region);
     }
@@ -84,7 +85,7 @@ function CountriesPage() {
       filterData = filterData.sort(
         (country1, country2) => country2.area - country1.area
       );
-      if (sortByArea == 'Descending') {
+      if (sortByArea == "Descending") {
         filterData.reverse();
       }
     }
@@ -92,7 +93,7 @@ function CountriesPage() {
       filterData = filterData.sort(
         (country1, country2) => country2.population - country1.population
       );
-      if (sortByPopuLation == 'Descending') {
+      if (sortByPopuLation == "Descending") {
         filterData.reverse();
       }
     }
@@ -101,8 +102,11 @@ function CountriesPage() {
         country.name.common.toLowerCase().includes(inputValue.toLowerCase())
       );
     }
+  
+
     return filterData;
   };
+  
 
   const sortFilterDataBasedOnPopulation = (sortByArea) => {
     setSortByPopuLation(sortByArea);
@@ -116,7 +120,11 @@ function CountriesPage() {
     setSortByPopuLation("");
   };
 
+
+
   const filteredData = filterData();
+  // const language = getLanguages(filteredData);
+  // console.log(language);
 
   const regionData = getSubRegions(region);
 
@@ -150,6 +158,7 @@ function CountriesPage() {
               <div></div>
             ) : (
               <FilterSelection
+                selectedValue={subRegion}
                 selectionOnChange={searchBySubRegion}
                 sectionOptions={regionData}
                 defaultSelectionTag={"Filter By SubRegion"}

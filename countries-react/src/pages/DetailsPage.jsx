@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import countriesData from "../data/countries-data";
 import { Link, useParams } from "react-router-dom";
 import { useContext } from "react";
@@ -12,9 +12,8 @@ function DetailsPage() {
   const [loading, setLoading] = useState([true]);
   const [error, setError] = useState("");
   const { isDarkMode } = useContext(StyleContext);
-  console.log(id);
 
-  useEffect(() => {
+
     async function getCountriesData() {
       try {
         let countries = await countriesData();
@@ -31,7 +30,7 @@ function DetailsPage() {
       }
     }
     getCountriesData();
-  }, [id]);
+
 
   return (
     <div
