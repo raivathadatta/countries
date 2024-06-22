@@ -35,7 +35,7 @@ function CountriesPage() {
         setCountries({ countriesList: countries, region: regionData });
         setLoading(false);
       } catch (error) {
-        console.log(error);
+   
         setError(error.message);
       }
     }
@@ -43,7 +43,7 @@ function CountriesPage() {
   }, []);
 
   const getSubRegions = (region) => {
-    console.log(region);
+
     const filteredSubRegions = countries.countriesList
       .filter((country) => country.region === region)
       .map((country) => country.subregion);
@@ -123,9 +123,6 @@ function CountriesPage() {
 
 
   const filteredData = filterData();
-  // const language = getLanguages(filteredData);
-  // console.log(language);
-
   const regionData = getSubRegions(region);
 
   if (loading) {

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import StyleContext from "../context/style-context";
 import ErrorPage from "./ErrorPage";
 
-console.log(countriesData());
+
 function DetailsPage() {
   let { id } = useParams();
   const [data, setCountry] = useState([]);
@@ -25,7 +25,7 @@ function DetailsPage() {
         setCountry(countries);
         setLoading(false);
       } catch (error) {
-        console.log(error.message);
+      
         setError(error.message);
       }
     }
@@ -38,7 +38,7 @@ function DetailsPage() {
         isDarkMode ? "bg-elementDark text-bgLight" : "bg-bgLight"
       }  p-[3%]`}
     >
-      {console.log(data)}
+
       {error.length > 0 ? (
         <ErrorPage></ErrorPage>
       ) : loading ? (
